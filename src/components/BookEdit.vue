@@ -37,7 +37,7 @@
                         <option>Software Engineering</option>
                         <option>Data Science</option>
                     </select>
-                </div>
+                </div> 
             </div>
             <div class="col-3">
                 <div class="form-group">

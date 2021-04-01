@@ -68,8 +68,8 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" >Save</button>&nbsp;
-        <button class="btn btn-danger" >Cancel</button>
+        <button class="btn btn-primary" @click="SaveBook">Save</button>&nbsp;
+      <button class="btn btn-danger" @click="Cancel">Cancel</button>
 
     </div>
     <br /><br />
@@ -83,22 +83,27 @@ export default {
     data() {
         return {
             book: {
-                title: "",
-                price: 1,
-                isbn: "",
+                title: "Niyay",
+                price: 100,
+                isbn: "614234013",
                 pageCount: 1,
                 publishedDate: "1997-12-01T00:00:00.000-0800",
                 thumbnailUrl: "https://raw.githubusercontent.com/kesinee-bo/sp01/master/unavailable.jpg",
-                shortDescription: "",
-                author: "",
-                category: ""
+                shortDescription: "Data mining is a process used by companies to turn raw data into useful information. By using software to look for patterns in large batches of data, businesses can learn more about their customers to develop more effective marketing strategies.",
+                author: "Priyaphat Charoenrit",
+                category: "java"
             }
         }
     },
     methods: {
         async SaveBook() {
 
-            //Code for sent data to API to add new book
+            await axios
+        .post("http://localhost:3000/api/v1/book", this.book)
+        .then((res) => {
+          console.log(res);
+          this.$router.push("/");
+        });
 
         },
         Cancel() {
