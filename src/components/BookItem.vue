@@ -5,7 +5,7 @@
     <div class="container ">
         <div class="row">
             <div class="col-lg-4">
-                <img v-bind:src="book.thumbnailUrl" width="200px" /><br />
+                <img v-bind:src="book.thumbnailUrl" width="200px"  /><br />
             </div>
             <div class="col-lg-8">
 
@@ -40,7 +40,7 @@
                         <p class="text-justify">{{book.shortDescription}}</p>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-sm" @click="EditBook(book.bookid)" >Edit Book</button>&nbsp;
+                <button class="btn btn-primary btn-sm" @click=" EditBook(book.bookid)" >Edit Book</button>&nbsp;
                 <button class="btn btn-danger btn-sm" @click="DeleteBook(book.bookid)" >Delete Book</button>
                 <br />
             </div>
@@ -63,8 +63,8 @@ export default {
         DeleteBook(bookid) {
             console.log(bookid);
             if (confirm("Do you want to delete this book?")) {
-
-                this.$emit("deleteBook",bookid);
+             
+               this.$emit("DeleteBook",bookid);
 
             }
 

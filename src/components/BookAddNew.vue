@@ -8,103 +8,161 @@
         </div>
     </div>
     <div class="container">
+        <form class="needs-validation" v-on:submit.prevent="" novalidate>
+            <div class="form-group row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="title">Book Title:</label>
+                        <input type="text" v-model="book.title" class="form-control" id="title" placeholder="Enter Book Title" name="title">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="author">Author:</label>
+                        <input type="text" v-model="book.author" class="form-control" id="author" placeholder="Enter Author" name="author">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select v-model="book.category" class="form-control" id="category">
+                            <option>Web Development</option>
+                            <option>Internet</option>
+                            <option>Java</option>
+                            <option>Microsoft .NET</option>
+                            <option>Mobile Technology</option>
+                            <option>Programming</option>
+                            <option>Software Engineering</option>
+                            <option>Data Science</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="bookimage">Book Image:</label>
+                        <UploadImage id="bookimage" name="bookimage" ref="bookimage" />
 
-        <div class="form-group row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="title">Book Title:</label>
-                    <input type="text" v-model="book.title" class="form-control" id="title" placeholder="Enter Book Title" name="title">
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="author">Author:</label>
-                    <input type="text" v-model="book.author" class="form-control" id="author" placeholder="Enter Author" name="author">
+            <div class="form-group row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" v-model="book.price" class="form-control" id="price" placeholder="Enter Price" name="price">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="page">Pages:</label>
+                        <input type="number" v-model="book.pageCount" class="form-control" id="page" placeholder="Enter Pages" name="page">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="ISBN">ISBN:</label>
+                        <input type="text" v-model="book.isbn" class="form-control" id="ISBN" placeholder="Enter ISBN" name="ISBN">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        
+                        <label for="publishedDate">Published Date:</label>
+                        <vc-date-picker v-model="book.publishedDate" mode="date" id="publishedDate" name="publishedDate" />
+                        
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-4">
-                <div class="form-group">
-                    <label for="category">Category:</label>
-                    <select v-model="book.category" class="form-control" id="category">
-                        <option>Web Development</option>
-                        <option>Internet</option>
-                        <option>Java</option>
-                        <option>Microsoft .NET</option>
-                        <option>Mobile Technology</option>
-                        <option>Programming</option>
-                        <option>Software Engineering</option>
-                        <option>Data Science</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label for="ISBN">ISBN:</label>
-                    <input type="text" v-model="book.isbn" class="form-control" id="ISBN" placeholder="Enter ISBN" name="ISBN">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="price">Price:</label>
-                    <input type="number" v-model="book.price" class="form-control" id="price" placeholder="Enter Price" name="price">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="page">Pages:</label>
-                    <input type="number" v-model="book.pageCount" class="form-control" id="page" placeholder="Enter Pages" name="page">
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea v-model="book.shortDescription" class="form-control" id="description" placeholder="Enter Description" rows="3"></textarea>
+            <div class="form-group row">
 
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea v-model="book.shortDescription" class="form-control" id="description" placeholder="Enter Description" rows="3"></textarea>
+
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <button class="btn btn-primary" @click="SaveBook">Save</button>&nbsp;
-      <button class="btn btn-danger" @click="Cancel">Cancel</button>
-
+            <button class="btn btn-primary" v-on:click="SaveBook()">Save</button>&nbsp;
+            <button class="btn btn-danger" v-on:click="Cancel()">Cancel</button>
+        </form>
     </div>
-    <br /><br />
+    <br /><br /><br /><br />
 </div>
 </template>
 
 <script>
+
+import moment from 'moment';
 import axios from "axios";
+import UploadImage from './UploadImage';
+//import { required } from "vuelidate/lib/validators";
+
 export default {
     name: "BookAddNew",
+    components: {
+        UploadImage
+    },
     data() {
         return {
+            errors: [],
             book: {
-                title: "Niyay",
-                price: 100,
-                isbn: "614234013",
+                title: " ",
+                price: 1,
+                isbn: " ",
                 pageCount: 1,
-                publishedDate: "1997-12-01T00:00:00.000-0800",
-                thumbnailUrl: "https://raw.githubusercontent.com/kesinee-bo/sp01/master/unavailable.jpg",
-                shortDescription: "Data mining is a process used by companies to turn raw data into useful information. By using software to look for patterns in large batches of data, businesses can learn more about their customers to develop more effective marketing strategies.",
-                author: "Priyaphat Charoenrit",
-                category: "java"
+                publishedDate: new Date(),
+                thumbnailUrl: "unavailable.jpg",
+                shortDescription: " ",
+                author: " ",
+                category: " "
             }
         }
     },
+    async mounted() {
+        let accessToken= await localStorage.getItem('accessToken')
+        if (await accessToken){
+            console.log('xxx')
+        }else{
+            this.$router.push('/login');
+        }
+    },
     methods: {
+
         async SaveBook() {
+           
+            
+            if (confirm("Do you want to save  this book?")) {
 
-            await axios
-        .post("http://localhost:3000/api/v1/book", this.book)
-        .then((res) => {
-          console.log(res);
-          this.$router.push("/");
-        });
+                this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYYY-MM-DD');
+                let bookimage = await this.$refs.bookimage.getFileName()
 
+                if (await bookimage !== "") {
+                    this.book.thumbnailUrl = await bookimage
+                    await this.$refs.bookimage.UploadImage();
+                }
+
+
+                let accessToken= await localStorage.getItem('accessToken')
+                if (await accessToken){
+                    try {
+
+                            await axios.post(this.$apiUrl + "book/", this.book,{ headers: {"Authorization" : `bearer ${accessToken}`} });
+                            await setTimeout(() => this.$router.push('/books'), 500);
+
+                        }
+                    catch{
+                        this.$router.push('/login');
+                    }
+                }else{
+                    this.$router.push('/login');
+                }
+            }
         },
         Cancel() {
             if (confirm("Do you want to cancel adding this book?")) {
@@ -114,6 +172,7 @@ export default {
             }
 
         }
+
     }
 }
 </script>

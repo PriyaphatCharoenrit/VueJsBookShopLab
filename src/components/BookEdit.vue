@@ -37,7 +37,7 @@
                         <option>Software Engineering</option>
                         <option>Data Science</option>
                     </select>
-                </div> 
+                </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
@@ -51,6 +51,13 @@
                     <input type="number" v-model="book.price" class="form-control" id="price" placeholder="Enter Price" name="price">
                 </div>
             </div>
+            <div class="col-3">
+                    <div class="form-group">
+                        <label for="bookimage">Book Image:</label>
+                        <UploadImage id="bookimage" name="bookimage" ref="bookimage" />
+
+                    </div>
+                </div>
             <div class="col">
                 <div class="form-group">
                     <label for="page">Pages:</label>
@@ -77,6 +84,7 @@
 </template>
 
 <script>
+
 import axios from "axios";
 export default {
     name: "BookEdit",
@@ -91,7 +99,7 @@ export default {
             if (confirm("Do you want to save?")) {
 
                 //HW: Code for sending edit data to API
-                await axios.put("http://localhost:3000/api/v1/book/" + this.$route.params.bookid , this.book );
+                await axios.put("http://localhost:3000/api/v1/book/" + this.$route.params.bookid , this.book);
                 await this.$router.push('/');
             }
 
@@ -107,8 +115,6 @@ export default {
         console.log(this.$route.params.bookid);
         const response = await axios.get("http://localhost:3000/api/v1/book/" + this.$route.params.bookid);
         this.book = await response.data.data[0];
-
-        //Code for get book detail from API
 
     },
 }
